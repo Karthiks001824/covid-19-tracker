@@ -4,9 +4,22 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: #f5f6fa;
+}
+
 .app__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 20px;
+
+}
+
+.app__stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+
 }
