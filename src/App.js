@@ -4,6 +4,9 @@ import { FormControl, Select, MenuItem, Card, CardContent } from "@mui/material"
 
 import InfoBox from './InfoBox'
 import Map from './Map'
+import Table from './Table'
+import LineGraph from './LineGraph'
+import { sortData } from './util.js'
 
  //https://disease.sh/v3/covid-19/countries
 
@@ -12,6 +15,7 @@ function App() {
   const [countries, setCountries ] = useState([]);
   const [country,  setCountry] = useState('worldwide');
   const [countryInfo, setcountryInfo ] = useState({});
+  const [tableData, setTabledata ] = useState([]);
 
   useEffect(()=> {
     fetch('https://disease.sh/v3/covid-19/all')
@@ -32,7 +36,8 @@ function App() {
             value: data.countryInfo.iso2,
           }
         ))
-
+        const sortedData = sortData(datas)
+        setTabledata(sortedData);
         setCountries(countries);
       })
     }
@@ -86,8 +91,9 @@ const onCountryChange = async (event) => {
       <Card className ="app__right">
         <CardContent>
           <h3>Live Cases By Country</h3>
-          {/*Table */}
+            <Table countries = {tableData} />
           <h3>Worldwide new cases</h3>
+          <LineGraph />
           {/*Graph*/}
         </CardContent>
       </Card>
