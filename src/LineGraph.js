@@ -2,15 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import numeral from "numeral";
 import Chart from 'chart.js/auto';
-import { Chart } from 'chart.js';
-import 'chartjs-adapter-date-fns';
-import {de} from 'date-fns/locale';
+import 'chartjs-adapter-moment';
 
 const options = {
   legend: {
     display: false,
   },
-  parsing: true,
   elements: {
     point: {
       radius: 0,
@@ -27,17 +24,14 @@ const options = {
     },
   },
   scales: {
-    x: [
-      {
-        adapters: {
-        date: {
-            locale: de
-        }
-    }
+    x:{
+        type: "time",
+        time: {
+          format: "MM/DD/YY",
+          tooltipFormat: "ll",
+        },
       },
-    ],
-    y: [
-      {
+    y:{
         gridLines: {
           display: false,
         },
@@ -48,9 +42,9 @@ const options = {
           },
         },
       },
-    ],
   },
 };
+
 
 const buildChartData = (data, casesType) => {
   let chartData = [];
@@ -88,7 +82,6 @@ function LineGraph({ casesType= 'cases' }) {
   }, [casesType]);
 
 
-
   return (
     <div>
       {data?.length > 0 ? (
@@ -96,10 +89,11 @@ function LineGraph({ casesType= 'cases' }) {
           data={{
             datasets: [
               {
+                label: 'worldwide covid cases',
                 backgroundColor: "rgba(204, 16, 52, 0.5)",
                 borderColor: "#CC1034",
                 data: data,
-                
+                parsing: true,
               },
             ],
           }}
