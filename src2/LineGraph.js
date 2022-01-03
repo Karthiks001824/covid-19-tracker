@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import numeral from "numeral";
-import Chart from 'chart.js/auto';
-import 'chartjs-adapter-moment';
 
 const options = {
-  plugins:{
-    legend: {
-      display: false,
-    },
+  legend: {
+    display: false,
   },
   elements: {
     point: {
@@ -26,15 +22,18 @@ const options = {
     },
   },
   scales: {
-    x:{
+    xAxes: [
+      {
         type: "time",
         time: {
           format: "MM/DD/YY",
           tooltipFormat: "ll",
         },
       },
-    y:{
-        grid: {
+    ],
+    yAxes: [
+      {
+        gridLines: {
           display: false,
         },
         ticks: {
@@ -44,9 +43,9 @@ const options = {
           },
         },
       },
+    ],
   },
 };
-
 
 const buildChartData = (data, casesType) => {
   let chartData = [];
@@ -64,7 +63,7 @@ const buildChartData = (data, casesType) => {
   return chartData;
 };
 
-function LineGraph({ casesType }, ...props) {
+function LineGraph({ casesType }) {
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -76,6 +75,7 @@ function LineGraph({ casesType }, ...props) {
         .then((data) => {
           let chartData = buildChartData(data, casesType);
           setData(chartData);
+          console.log(chartData);
           // buildChart(chartData);
         });
     };
@@ -84,8 +84,8 @@ function LineGraph({ casesType }, ...props) {
   }, [casesType]);
 
   return (
-    <div className = {props.className}>
-      {data?.length > 0 ? (
+    <div>
+      {data?.length > 0 && (
         <Line
           data={{
             datasets: [
@@ -93,14 +93,12 @@ function LineGraph({ casesType }, ...props) {
                 backgroundColor: "rgba(204, 16, 52, 0.5)",
                 borderColor: "#CC1034",
                 data: data,
-                parsing: true,
               },
             ],
           }}
-          options = {options}
-
+          options={options}
         />
-      ) : 'Loading...' }
+      )}
     </div>
   );
 }
