@@ -32,3 +32,9 @@
 .infobox__cases--green {
 	color: lightgreen ;
 }
+
+@media (max-width: 990px) {
+	.infobox {
+		margin-bottom: 10px;
+	}
+}
